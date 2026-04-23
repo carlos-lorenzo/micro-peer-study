@@ -6,14 +6,16 @@ import { Button } from '@/components/ui/Button';
 import { CheckSquare, Square } from 'lucide-react';
 
 const AVAILABLE_TOPICS = [
-  'Epithelial',
-  'Connective',
-  'Muscle',
-  'Nervous',
-  'Cartilage',
-  'Bone',
-  'Blood',
-  'Other'
+  'Epitelio de revestimiento',
+  'Epitelio glandular',
+  'Conectivo',
+  'Tejido muscular',
+  'Tejido nervioso',
+  'Sangre y aparato circulatorio',
+  'Sistema cardiorespiratorio',
+  'Sistema digestivo',
+  'Sistemas renal y tegumentario',
+  'Sistema osteoarticular y ingeniería tisular'
 ];
 
 export default function LandingPage() {
@@ -34,45 +36,45 @@ export default function LandingPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 py-12">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-          Welcome to <span className="text-blue-600">Histology Hub</span>
+      <div className="text-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+          Bienvenido a <span className="text-primary">Histology Hub</span>
         </h1>
-        <p className="text-lg text-gray-600 max-w-xl mx-auto">
-          A peer-to-peer study platform for biomedical engineering students. Select the tissue topics you want to practice and jump into a session.
+        <p className="text-lg text-muted max-w-xl mx-auto">
+          Una plataforma de estudio entre pares para estudiantes de ingeniería biomédica. Selecciona los temas que deseas practicar y empieza una sesión.
         </p>
       </div>
 
-      <div className="bg-white p-6 sm:p-8 shadow-sm ring-1 ring-gray-200 rounded-xl space-y-6">
-        <h2 className="text-xl font-semibold text-gray-900">Select Practice Topics</h2>
+      <div className="bg-surface p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-muted-bg rounded-xl space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 className="text-xl font-semibold text-foreground">Selecciona Temas de Práctica</h2>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {AVAILABLE_TOPICS.map((topic) => {
             const isSelected = selectedTopics.includes(topic);
             return (
               <button
                 key={topic}
                 onClick={() => toggleTopic(topic)}
-                className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-colors ${
+                className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all duration-200 active:scale-95 ${
                   isSelected 
-                    ? 'border-blue-600 bg-blue-50 text-blue-900' 
-                    : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50 text-gray-700'
+                    ? 'border-primary bg-primary/10 text-primary' 
+                    : 'border-muted-bg hover:border-primary/50 hover:bg-muted-bg/50 text-foreground'
                 }`}
               >
                 {isSelected ? (
-                  <CheckSquare className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                  <CheckSquare className="h-5 w-5 text-primary flex-shrink-0 transition-transform duration-200" />
                 ) : (
-                  <Square className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                  <Square className="h-5 w-5 text-muted flex-shrink-0 transition-transform duration-200" />
                 )}
-                <span className="font-medium">{topic}</span>
+                <span className="font-medium text-sm leading-tight">{topic}</span>
               </button>
             );
           })}
         </div>
 
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100">
-          <p className="text-sm text-gray-500">
-            {selectedTopics.length} topic{selectedTopics.length !== 1 ? 's' : ''} selected
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-muted-bg">
+          <p className="text-sm font-medium text-muted">
+            {selectedTopics.length} tema{selectedTopics.length !== 1 ? 's' : ''} seleccionado{selectedTopics.length !== 1 ? 's' : ''}
           </p>
           <Button 
             size="lg" 
@@ -80,7 +82,7 @@ export default function LandingPage() {
             disabled={selectedTopics.length === 0}
             className="w-full sm:w-auto"
           >
-            Start Practice Session
+            Empezar Práctica
           </Button>
         </div>
       </div>

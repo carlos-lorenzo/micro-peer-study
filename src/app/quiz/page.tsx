@@ -79,25 +79,25 @@ function QuizContent() {
   };
 
   if (topics.length === 0) {
-    return <div className="text-center py-20 text-gray-500">No topics selected. Go back and select topics.</div>;
+    return <div className="text-center py-20 text-muted">No hay temas seleccionados. Vuelve y selecciona temas.</div>;
   }
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-32 space-y-4">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-        <p className="text-gray-500">Loading next question...</p>
+      <div className="flex flex-col items-center justify-center py-32 space-y-4 animate-in fade-in duration-300">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-muted">Cargando siguiente pregunta...</p>
       </div>
     );
   }
 
   if (!question) {
     return (
-      <div className="text-center py-20 space-y-4">
-        <h2 className="text-2xl font-bold text-gray-800">No Questions Found</h2>
-        <p className="text-gray-600">We couldn&apos;t find any active questions for the selected topics.</p>
+      <div className="text-center py-20 space-y-4 animate-in zoom-in-95 duration-500">
+        <h2 className="text-2xl font-bold text-foreground">No se encontraron preguntas</h2>
+        <p className="text-muted">No pudimos encontrar preguntas activas para los temas seleccionados.</p>
         <Button onClick={loadQuestion} variant="outline" className="gap-2">
-          <IterationCcw className="h-4 w-4" /> Try Again
+          <IterationCcw className="h-4 w-4" /> Intentar de nuevo
         </Button>
       </div>
     );
@@ -106,32 +106,32 @@ function QuizContent() {
   return (
     <div className="grid lg:grid-cols-2 gap-8 items-start">
       {/* Left: Image Viewer */}
-      <div className="space-y-4">
-        <ZoomableImage src={question.image_url} alt="Histology slide" />
+      <div className="space-y-4 animate-in fade-in slide-in-from-left-4 duration-500">
+        <ZoomableImage src={question.image_url} alt="Diapositiva de histología" />
         
-        <div className="flex justify-between items-center px-2 text-sm text-gray-500">
-          <span>Topic: <span className="font-semibold text-gray-700">{question.topic}</span></span>
+        <div className="flex justify-between items-center px-2 text-sm text-muted">
+          <span>Tema: <span className="font-semibold text-foreground">{question.topic}</span></span>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={handleFlag} 
             disabled={isFlagging || hasFlagged}
-            className={hasFlagged ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-red-600'}
+            className={hasFlagged ? 'text-danger bg-danger/10 hover:bg-danger/20' : 'text-muted hover:text-danger hover:bg-danger/10'}
           >
             <Flag className="h-4 w-4 mr-2" />
-            {hasFlagged ? 'Reported' : 'Report Error'}
+            {hasFlagged ? 'Reportado' : 'Reportar Error'}
           </Button>
         </div>
       </div>
 
       {/* Right: Interaction */}
-      <div className="bg-white p-6 sm:p-8 rounded-xl ring-1 ring-gray-200 shadow-sm space-y-8">
+      <div className="bg-surface p-6 sm:p-8 rounded-xl ring-1 ring-muted-bg shadow-sm space-y-8 flex flex-col justify-center animate-in fade-in slide-in-from-right-4 duration-700">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Identify the structure</h2>
-          <p className="text-gray-600 text-sm">
+          <h2 className="text-xl font-bold text-foreground mb-2">Identifica la estructura</h2>
+          <p className="text-muted text-sm leading-relaxed">
             {question.question_type === 'MCQ' 
-              ? 'Select the correct option from the list below.'
-              : 'Enter the name of the highlighted/shown structure.'}
+              ? 'Selecciona la opción correcta de la lista a continuación.'
+              : 'Ingresa el nombre de la estructura resaltada o mostrada.'}
           </p>
         </div>
 
@@ -156,8 +156,8 @@ function QuizContent() {
                   <Button
                     key={idx}
                     variant={btnVariant}
-                    className={`w-full justify-start text-left h-auto py-3 px-4 min-h-[3rem] ${
-                      isCorrect !== null && !isActuallyCorrect && !isSelected ? 'opacity-50' : ''
+                    className={`w-full justify-start text-left h-auto py-3 px-4 min-h-[3rem] transition-all duration-200 ${
+                      isCorrect !== null && !isActuallyCorrect && !isSelected ? 'opacity-50 grayscale' : ''
                     }`}
                     onClick={() => handleMCQSelect(option)}
                     disabled={isCorrect !== null}
@@ -177,12 +177,12 @@ function QuizContent() {
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               disabled={isCorrect !== null}
-              placeholder="Type your answer here..."
-              className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none disabled:bg-gray-50"
+              placeholder="Escribe tu respuesta aquí..."
+              className="w-full rounded-md border border-muted bg-surface px-4 py-3 text-foreground placeholder-muted focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors disabled:bg-muted-bg disabled:text-muted"
             />
             {isCorrect === null && (
-              <Button type="submit" disabled={!userAnswer.trim()} className="w-full">
-                Check Answer
+              <Button type="submit" disabled={!userAnswer.trim()} className="w-full shadow-sm hover:shadow-md">
+                Comprobar Respuesta
               </Button>
             )}
           </form>
@@ -190,22 +190,22 @@ function QuizContent() {
 
         {/* Feedback Section */}
         {isCorrect !== null && (
-          <div className={`p-4 rounded-lg border flex flex-col sm:flex-row justify-between items-center gap-4 ${
-            isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+          <div className={`p-4 rounded-lg border flex flex-col sm:flex-row justify-between items-center gap-4 animate-in zoom-in-95 duration-300 ${
+            isCorrect ? 'bg-success/10 border-success/30' : 'bg-danger/10 border-danger/30'
           }`}>
             <div>
-              <p className={`font-semibold ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
-                {isCorrect ? 'Correct! Well done.' : 'Incorrect.'}
+              <p className={`font-semibold ${isCorrect ? 'text-success' : 'text-danger'}`}>
+                {isCorrect ? '¡Correcto! Muy bien.' : 'Incorrecto.'}
               </p>
               {!isCorrect && (
-                <p className="text-sm text-gray-700 mt-1">
-                  The correct answer is: <span className="font-bold">{question.correct_answer}</span>
+                <p className="text-sm text-foreground mt-1">
+                  La respuesta correcta es: <span className="font-bold">{question.correct_answer}</span>
                 </p>
               )}
             </div>
             
-            <Button onClick={loadQuestion} className="w-full sm:w-auto shrink-0">
-              Next Question
+            <Button onClick={loadQuestion} className="w-full sm:w-auto shrink-0 shadow-sm hover:shadow-md">
+              Siguiente Pregunta
             </Button>
           </div>
         )}
@@ -217,7 +217,7 @@ function QuizContent() {
 export default function QuizPage() {
   return (
     <div className="max-w-5xl mx-auto py-4">
-      <Suspense fallback={<div className="p-8 text-center"><Loader2 className="animate-spin mx-auto h-6 w-6 text-blue-600" /></div>}>
+      <Suspense fallback={<div className="p-8 text-center"><Loader2 className="animate-spin mx-auto h-6 w-6 text-primary" /></div>}>
         <QuizContent />
       </Suspense>
     </div>

@@ -12,7 +12,7 @@ interface ZoomableImageProps {
 
 export function ZoomableImage({ src, alt }: ZoomableImageProps) {
   return (
-    <div className="relative w-full h-[500px] border border-gray-200 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+    <div className="relative w-full h-[500px] border border-muted-bg rounded-lg overflow-hidden bg-surface shadow-inner flex items-center justify-center">
       <TransformWrapper
         initialScale={1}
         minScale={0.5}
@@ -27,7 +27,7 @@ export function ZoomableImage({ src, alt }: ZoomableImageProps) {
                 variant="secondary"
                 size="icon"
                 onClick={() => zoomIn()}
-                aria-label="Zoom In"
+                aria-label="Acercar"
               >
                 <ZoomIn className="h-4 w-4" />
               </Button>
@@ -35,7 +35,7 @@ export function ZoomableImage({ src, alt }: ZoomableImageProps) {
                 variant="secondary"
                 size="icon"
                 onClick={() => zoomOut()}
-                aria-label="Zoom Out"
+                aria-label="Alejar"
               >
                 <ZoomOut className="h-4 w-4" />
               </Button>
@@ -43,7 +43,7 @@ export function ZoomableImage({ src, alt }: ZoomableImageProps) {
                 variant="secondary"
                 size="icon"
                 onClick={() => resetTransform()}
-                aria-label="Reset Zoom"
+                aria-label="Restablecer Zoom"
               >
                 <Maximize className="h-4 w-4" />
               </Button>

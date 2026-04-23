@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Histology Hub",
-  description: "Peer-to-peer study platform for biomedical engineering students",
+  description: "Plataforma de estudio entre pares para estudiantes",
 };
 
 export default function RootLayout({
@@ -25,11 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-gray-50" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200" suppressHydrationWarning>
         <Header />
         <main className="flex-1 w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
           {children}

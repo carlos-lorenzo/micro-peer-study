@@ -17,15 +17,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+          "inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-surface motion-safe:active:scale-95",
           {
             // Variants
-            "bg-blue-600 text-white hover:bg-blue-700": variant === 'primary',
-            "bg-gray-100 text-gray-900 hover:bg-gray-200": variant === 'secondary',
-            "border border-gray-300 bg-transparent hover:bg-gray-50 text-gray-700": variant === 'outline',
-            "bg-transparent hover:bg-gray-100 text-gray-700": variant === 'ghost',
-            "bg-red-600 text-white hover:bg-red-700": variant === 'danger',
-            "bg-green-600 text-white hover:bg-green-700": variant === 'success',
+            "bg-primary text-on-primary hover:bg-primary-hover shadow-sm hover:shadow-md": variant === 'primary',
+            "bg-muted-bg text-foreground hover:bg-muted/80": variant === 'secondary',
+            "border border-muted bg-transparent hover:bg-muted-bg text-foreground": variant === 'outline',
+            "bg-transparent hover:bg-muted-bg text-foreground": variant === 'ghost',
+            "bg-danger text-white hover:opacity-90": variant === 'danger',
+            "bg-success text-white hover:opacity-90": variant === 'success',
           },
           {
             // Sizes
