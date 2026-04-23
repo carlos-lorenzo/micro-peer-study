@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createQuestionAction } from '@/app/actions';
 import { Button } from '@/components/ui/Button';
@@ -44,6 +44,32 @@ export default function UploadPage() {
       setFile(e.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    const handlePaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const pastedFile = items[i].getAsFile();
+          if (pastedFile) {
+            // Generating a default filename for pasted images
+            const fileWithFallbackName = new File(
+              [pastedFile],
+              pastedFile.name === 'image.png' ? `pasted-image-${Date.now()}.png` : pastedFile.name,
+              { type: pastedFile.type }
+            );
+            setFile(fileWithFallbackName);
+          }
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,7 +154,7 @@ export default function UploadPage() {
                   <span>Sube un archivo</span>
                   <input ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
                 </span>
-                <p className="pl-1">o arrastra y suelta</p>
+                <p className="pl-1">, arrastra y suelta, o usa <kbd className="px-1.5 py-0.5 mx-1 border border-muted-bg rounded-md bg-muted-bg/50">Ctrl+V</kbd></p>
               </div>
               <p className="text-xs text-muted">PNG, JPG, GIF hasta 10MB</p>
               {file && (
