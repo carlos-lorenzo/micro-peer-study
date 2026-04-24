@@ -127,7 +127,7 @@ export default function UploadPage() {
     <div className="max-w-2xl mx-auto py-8">
       <div className="text-center mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <h1 className="text-3xl font-extrabold text-foreground">Subir una Pregunta</h1>
-        <p className="mt-2 text-muted">Ayuda a expandir nuestro banco de preguntas compartido entre pares.</p>
+        <p className="mt-2 text-muted">Ayuda a expandir nuestro banco de preguntas.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-surface p-6 sm:p-8 rounded-xl shadow-sm ring-1 ring-muted-bg space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">

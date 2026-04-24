@@ -19,6 +19,7 @@ function QuizContent() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [isFlagging, setIsFlagging] = useState(false);
   const [hasFlagged, setHasFlagged] = useState(false);
+  const [showTopic, setShowTopic] = useState(false);
   
   const loadQuestion = useCallback(async () => {
     setLoading(true);
@@ -26,6 +27,7 @@ function QuizContent() {
     setUserAnswer('');
     setIsCorrect(null);
     setHasFlagged(false);
+    setShowTopic(false);
     try {
       const q = await fetchRandomQuestionAction(topics);
       setQuestion(q);
@@ -110,7 +112,7 @@ function QuizContent() {
         <ZoomableImage src={question.image_url} alt="Diapositiva de histología" />
         
         <div className="flex justify-between items-center px-2 text-sm text-muted">
-          <span>Tema: <span className="font-semibold text-foreground">{question.topic}</span></span>
+          <span>Tema: {showTopic ? <span className="font-semibold text-foreground">{question.topic}</span> : <button onClick={() => setShowTopic(true)} className="underline hover:text-foreground">Ver tema</button>}</span>
           <Button 
             variant="ghost" 
             size="sm" 
