@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { createQuestionAction } from '@/app/actions';
 import { Button } from '@/components/ui/Button';
 import { Loader2, UploadCloud, X } from 'lucide-react';
 import type { QuestionType } from '@/lib/queries';
@@ -32,6 +31,7 @@ export default function UploadPage() {
   
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleOptionChange = (index: number, value: string) => {
     const newOptions = [...options];
@@ -85,7 +85,7 @@ export default function UploadPage() {
       return;
     }
     if (questionType === 'MCQ' && options.some(opt => !opt.trim())) {
-      setError('Por favor llena todas las opciones distractoras.');
+      setError('Por favor llena todas las opciones falsas.');
       return;
     }
 
@@ -104,17 +104,33 @@ export default function UploadPage() {
 
       const blob = await response.json();
 
-      // 2. Save metadata to Supabase
-      await createQuestionAction({
-        image_url: blob.url,
-        topic,
-        question_type: questionType,
-        correct_answer: correctAnswer,
-        options: questionType === 'MCQ' ? options : null,
+      // 2. Save metadata to our internal API which calls createQuestion
+      const saveRes = await fetch('/api/question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image_url: blob.url,
+          topic,
+          question_type: questionType,
+          correct_answer: correctAnswer,
+          options: questionType === 'MCQ' ? options : null,
+        }),
       });
 
-      // Navigate back or reset
-      router.push('/');
+      if (!saveRes.ok) {
+        const body = await saveRes.json().catch(() => ({}));
+        throw new Error(body?.error || 'Error al guardar la pregunta');
+      }
+
+      // Success: clear all fields except topic
+      setQuestionType('Recognition');
+      setCorrectAnswer('');
+      setOptions(['', '', '']);
+      setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setSuccess('Pregunta subida correctamente');
+      setError(null);
+      
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Ocurrió un error durante la subida.');
@@ -137,6 +153,15 @@ export default function UploadPage() {
           <div className="p-3 bg-danger/10 text-danger rounded-md text-sm font-medium flex items-start gap-2">
             <X className="h-4 w-4 mt-0.5 cursor-pointer" onClick={() => setError(null)} />
             {error}
+          </div>
+        )}
+
+        {/* (Outage banner removed from upload page) */}
+
+        {/* Success message */}
+        {success && (
+          <div className="p-3 bg-success/10 text-success rounded-md text-sm font-medium flex items-start gap-2">
+            {success}
           </div>
         )}
 

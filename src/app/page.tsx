@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import OutageBanner from '@/components/OutageBanner';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { CheckSquare, Square } from 'lucide-react';
@@ -36,6 +37,7 @@ export default function LandingPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 py-12">
+      <OutageBanner />
       <div className="text-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
           Bienvenido a <span className="text-primary">Histology Hub</span>
